@@ -246,7 +246,15 @@ export default function NodeForm(props: {
       <SheetTrigger asChild>
         <Button
           onClick={() => {
-            form.reset();
+            form.reset({
+              name: "",
+              server_id: undefined,
+              protocol: "",
+              address: "",
+              port: 0,
+              tags: [],
+              ...normalizeValues(initialValues),
+            });
             setAutoFilledFields(new Set());
           }}
         >
