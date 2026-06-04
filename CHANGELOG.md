@@ -19,6 +19,22 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.6.4-dev.1](https://github.com/perfect-panel/frontend/compare/v1.6.3...v1.6.4-dev.1) (2026-06-04)
+
+### 🐛 Bug Fixes / 问题修复
+
+* use relative path for locale files to support non-root base paths ([593d038](https://github.com/perfect-panel/frontend/commit/593d038becde535fec20b27e53bfdd2af6b6ba49)), closes [#72](https://github.com/perfect-panel/frontend/issues/72)
+
+### 👷 Continuous Integration / CI/CD
+
+* add weekly auto-merge develop into main workflow ([b689e8b](https://github.com/perfect-panel/frontend/commit/b689e8bd64f819122b42684697dcd86b7baac277))
+* resolve conflicts with develop strategy on weekly merge ([cbd4847](https://github.com/perfect-panel/frontend/commit/cbd484746a3e7bb7a0806f6c2d9e8d42d3487852))
+* sync main into develop before weekly merge ([d99a6bc](https://github.com/perfect-panel/frontend/commit/d99a6bcaf45ade9790118cea273c20bc419d217f))
+
+### 🔧 Chores / 其他变更
+
+* trigger release ([a66dfcb](https://github.com/perfect-panel/frontend/commit/a66dfcb13be389287fefbc034e8c3c48ae17cc32))
+
 ## [1.6.2](https://github.com/perfect-panel/frontend/compare/v1.6.1...v1.6.2) (2026-05-21)
 
 ### 🐛 Bug Fixes / 问题修复
