@@ -13,7 +13,8 @@ import { useGlobalStore } from "@/stores/global";
 
 export const Route = createRootRouteWithContext()({
   component: () => {
-    const { common, setCommon, getUserInfo } = useGlobalStore();
+    const { common, setCommon, getUserInfo, clearUserLoading } =
+      useGlobalStore();
     useEffect(() => {
       const initializeApp = async () => {
         try {
@@ -24,6 +25,8 @@ export const Route = createRootRouteWithContext()({
           try {
             if (getCookie("Authorization")) {
               await getUserInfo();
+            } else {
+              clearUserLoading();
             }
           } catch {
             /* empty */

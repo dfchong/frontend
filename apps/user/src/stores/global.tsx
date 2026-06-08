@@ -105,7 +105,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     web_ad: false,
   },
   user: undefined,
-  isLoadingUser: false,
+  isLoadingUser: true,
   setCommon: (common) =>
     set((state) => ({
       common: {
@@ -124,6 +124,9 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     } finally {
       set({ isLoadingUser: false });
     }
+  },
+  clearUserLoading: () => {
+    set({ isLoadingUser: false });
   },
   getUserSubscribe: (short: string, token: string, type?: string) => {
     const { pan_domain, subscribe_domain, subscribe_path } =
