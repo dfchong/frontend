@@ -11,6 +11,7 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -87,6 +88,9 @@ function MobileBindDialog({
           <DialogTitle>
             {t("thirdParty.bindMobile", "Connect Mobile")}
           </DialogTitle>
+          <DialogDescription>
+            {t("thirdParty.bindMobileDesc", "Bind your mobile number to secure your account.")}
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>

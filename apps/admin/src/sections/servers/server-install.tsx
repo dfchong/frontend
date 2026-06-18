@@ -5,6 +5,7 @@ import { Button } from "@workspace/ui/components/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -86,6 +87,9 @@ export default function ServerInstall({ server }: Props) {
       <DialogContent className="w-[720px] max-w-full md:max-w-3xl">
         <DialogHeader>
           <DialogTitle>{t("oneClickInstall", "One-click Install")}</DialogTitle>
+          <DialogDescription>
+            {t("oneClickInstallDesc", "Quickly deploy a node server with a single command.")}
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">

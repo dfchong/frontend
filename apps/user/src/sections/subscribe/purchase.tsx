@@ -7,6 +7,7 @@ import { Card, CardContent } from "@workspace/ui/components/card";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@workspace/ui/components/dialog";
@@ -121,6 +122,9 @@ export default function Purchase({
       <DialogContent className="flex h-full flex-col overflow-hidden border-none p-0 md:h-auto md:max-w-screen-lg">
         <DialogHeader className="p-6 pb-0">
           <DialogTitle>{t("buySubscription", "Buy Subscription")}</DialogTitle>
+          <DialogDescription>
+            {t("buySubscriptionDesc", "Select quantity and payment method to complete your purchase.")}
+          </DialogDescription>
         </DialogHeader>
         <div className="grid w-full flex-grow gap-3 overflow-auto p-6 pt-0 lg:grid-cols-2">
           <Card className="border-transparent shadow-none md:border-inherit md:shadow">

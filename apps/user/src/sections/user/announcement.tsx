@@ -4,6 +4,7 @@ import { Card } from "@workspace/ui/components/card";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@workspace/ui/components/dialog";
@@ -51,6 +52,9 @@ export default function Announcement({ type }: { type: "popup" | "pinned" }) {
         <DialogContent className="max-h-[85vh] overflow-auto sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{data?.title}</DialogTitle>
+            <DialogDescription>
+              {t("announcementPopupDesc", "Important announcement from the system administrator.")}
+            </DialogDescription>
           </DialogHeader>
           <Markdown>{data?.content}</Markdown>
         </DialogContent>

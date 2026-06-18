@@ -9,6 +9,7 @@ import { Button } from "@workspace/ui/components/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -59,6 +60,9 @@ export default function SystemLogsDialog({
       <DialogContent className="max-w-4xl">
         <DialogHeader>
           <DialogTitle>{t("systemLogs", "System Logs")}</DialogTitle>
+          <DialogDescription>
+            {t("systemLogsDesc", "View detailed system logs and diagnostic information.")}
+          </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-[60vh] max-h-[80vh] min-h-[400px] w-full rounded-lg border bg-muted/30 p-1">
           {isLoading ? (
