@@ -2647,4 +2647,13 @@ declare namespace API {
     security: string;
     security_config: SecurityConfig;
   };
+
+  type CorsConfigResponse = {
+    origins: string[];
+    total: number;
+  };
+
+  type UpdateCorsConfigRequest = {
+    origins: string[];
+  };
 }

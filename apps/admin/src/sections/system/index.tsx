@@ -9,6 +9,7 @@ import CurrencyForm from "./basic-settings/currency-form";
 import PrivacyPolicyForm from "./basic-settings/privacy-policy-form";
 import SiteForm from "./basic-settings/site-form";
 import TosForm from "./basic-settings/tos-form";
+import CorsForm from "./cors-settings/cors-form";
 import LogCleanupForm from "./log-cleanup/log-cleanup-form";
 import InviteForm from "./user-security/invite-form";
 import RegisterForm from "./user-security/register-form";
@@ -40,6 +41,10 @@ export default function System() {
     {
       title: t("logSettings", "Log Settings"),
       forms: [{ component: LogCleanupForm }],
+    },
+    {
+      title: t("securitySettings", "Security Settings"),
+      forms: [{ component: CorsForm }],
     },
   ];
 

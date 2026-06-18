@@ -365,3 +365,32 @@ export async function updateVerifyConfig(
     }
   );
 }
+
+/** Get CORS config GET /v1/admin/system/cors */
+export async function getCorsConfig(options?: { [key: string]: any }) {
+  return request<API.Response & { data?: API.CorsConfigResponse }>(
+    `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/system/cors`,
+    {
+      method: "GET",
+      ...(options || {}),
+    }
+  );
+}
+
+/** Update CORS config PUT /v1/admin/system/cors */
+export async function updateCorsConfig(
+  body: API.UpdateCorsConfigRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.Response & { data?: any }>(
+    `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/system/cors`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: body,
+      ...(options || {}),
+    }
+  );
+}
