@@ -15,6 +15,7 @@ import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -128,6 +129,9 @@ export default function CorsConfig() {
       <SheetContent className="w-[600px] max-w-full gap-0 md:max-w-screen-md">
         <SheetHeader>
           <SheetTitle>{t("cors.title", "CORS Configuration")}</SheetTitle>
+          <SheetDescription>
+            {t("cors.description", "Manage allowed cross-origin domains.")}
+          </SheetDescription>
         </SheetHeader>
         <ScrollArea className="h-[calc(100dvh-48px-36px-36px-24px-env(safe-area-inset-top))] px-6">
           <Form {...form}>
