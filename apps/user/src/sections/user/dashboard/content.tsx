@@ -95,6 +95,11 @@ export default function Content() {
           }
         });
       }
+      if (app.scheme) {
+        platforms.forEach((platform) => {
+          platformsSet.add(platform);
+        });
+      }
     });
 
     return platforms.filter((platform) => platformsSet.has(platform));
@@ -436,7 +441,7 @@ export default function Content() {
                                 ?.filter(
                                   (application) =>
                                     !!(
-                                      application.download_link?.[platform] &&
+                                      application.download_link?.[platform] ||
                                       application.scheme
                                     )
                                 )
