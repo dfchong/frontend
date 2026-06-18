@@ -902,6 +902,7 @@ declare namespace API {
     icon?: string;
     scheme?: string;
     is_default: boolean;
+    enabled: boolean;
     download_link?: DownloadLink;
   };
 

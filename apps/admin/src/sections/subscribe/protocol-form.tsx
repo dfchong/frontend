@@ -158,6 +158,22 @@ export function ProtocolForm() {
       ),
     },
     {
+      accessorKey: "enabled",
+      header: t("table.columns.enabled", "Enabled"),
+      cell: ({ row }) => (
+        <Switch
+          checked={row.original.enabled}
+          onCheckedChange={async (checked) => {
+            await updateSubscribeApplication({
+              ...row.original,
+              enabled: checked,
+            });
+            tableRef.current?.refresh();
+          }}
+        />
+      ),
+    },
+    {
       accessorKey: "name",
       header: t("table.columns.name", "Client Name"),
       cell: ({ row }) => (
@@ -322,6 +338,7 @@ export function ProtocolForm() {
         await updateSubscribeApplication({
           ...data,
           is_default: editingClient.is_default,
+          enabled: editingClient.enabled,
           id: editingClient.id,
         });
         toast.success(t("actions.updateSuccess", "Updated successfully"));
@@ -329,6 +346,7 @@ export function ProtocolForm() {
         await createSubscribeApplication({
           ...data,
           is_default: false,
+          enabled: true,
         });
         toast.success(t("actions.createSuccess", "Created successfully"));
       }

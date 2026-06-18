@@ -102,6 +102,7 @@
   },
   "table": {
     "columns": {
+      "enabled": "Enabled",
       "default": "Default",
       "description": "Description",
       "name": "Client Name",

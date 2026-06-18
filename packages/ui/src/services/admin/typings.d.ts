@@ -324,6 +324,7 @@ declare namespace API {
     scheme?: string;
     user_agent: string;
     is_default: boolean;
+    enabled: boolean;
     template: string;
     output_format: string;
     download_link: DownloadLink;
@@ -2101,6 +2102,7 @@ declare namespace API {
     scheme?: string;
     user_agent: string;
     is_default: boolean;
+    enabled: boolean;
     template: string;
     output_format: string;
     download_link?: DownloadLink;
@@ -2388,6 +2390,7 @@ declare namespace API {
     scheme?: string;
     user_agent: string;
     is_default: boolean;
+    enabled: boolean;
     template: string;
     output_format: string;
     download_link?: DownloadLink;
