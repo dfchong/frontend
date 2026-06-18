@@ -24,6 +24,7 @@ import {
 import { Icon } from "@workspace/ui/composed/icon";
 import {
   getCorsConfig,
+  syncCorsConfig,
   updateCorsConfig,
 } from "@workspace/ui/services/admin/system";
 import { useEffect, useState } from "react";
@@ -55,6 +56,7 @@ export default function CorsConfig() {
   const { t } = useTranslation("system");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [syncing, setSyncing] = useState(false);
 
   const { data, refetch } = useQuery({
     queryKey: ["getCorsConfig"],
@@ -100,6 +102,19 @@ export default function CorsConfig() {
       toast.error(t("common.saveFailed", "Save Failed"));
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleSync() {
+    setSyncing(true);
+    try {
+      await syncCorsConfig();
+      toast.success(t("cors.syncSuccess", "Cache synced from database"));
+      refetch();
+    } catch (_error) {
+      toast.error(t("cors.syncFailed", "Cache sync failed"));
+    } finally {
+      setSyncing(false);
     }
   }
 
@@ -199,6 +214,17 @@ export default function CorsConfig() {
           </Form>
         </ScrollArea>
         <SheetFooter className="flex-row justify-end gap-2 pt-3">
+          <Button
+            disabled={loading || syncing}
+            onClick={handleSync}
+            variant="secondary"
+          >
+            {syncing && (
+              <Icon className="mr-2 animate-spin" icon="mdi:loading" />
+            )}
+            <Icon className="mr-2 h-4 w-4" icon="mdi:sync" />
+            {t("cors.syncCache", "Sync Cache")}
+          </Button>
           <Button
             disabled={loading}
             onClick={() => setOpen(false)}

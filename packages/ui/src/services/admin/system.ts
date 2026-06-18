@@ -394,3 +394,14 @@ export async function updateCorsConfig(
     }
   );
 }
+
+/** Sync CORS cache — purge Redis and reload from DB POST /v1/admin/system/cors/sync */
+export async function syncCorsConfig(options?: { [key: string]: any }) {
+  return request<API.Response & { data?: API.CorsConfigResponse }>(
+    `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/system/cors/sync`,
+    {
+      method: "POST",
+      ...(options || {}),
+    }
+  );
+}
