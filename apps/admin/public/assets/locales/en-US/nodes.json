@@ -15,6 +15,7 @@
   "drawerEditTitle": "Edit Node",
   "edit": "Edit",
   "enabled": "Enabled",
+  "enabled_description": "Enable this node for user subscriptions.",
   "enabled_off": "Disabled",
   "enabled_on": "Enabled",
   "name": "Name",

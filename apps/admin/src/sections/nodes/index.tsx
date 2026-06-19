@@ -230,7 +230,7 @@ export default function Nodes() {
                   service_port: Number(values.service_port || 0),
                   parent_id: Number(values.parent_id || 0),
                   tags: values.tags || [],
-                  enabled: false,
+                  enabled: values.enabled ?? false,
                 };
                 await createNode(body);
                 toast.success(t("created", "Created"));

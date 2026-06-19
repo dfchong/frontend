@@ -34,6 +34,8 @@ type ComboboxProps<T = string, M extends boolean = false> = {
   value?: OnChangeType<T, M>;
   onChange: (value: OnChangeType<T, M>) => void;
   className?: string;
+  creatable?: boolean;
+  creatableParser?: (input: string) => T;
 };
 
 export function Combobox<T, M extends boolean = false>({
@@ -43,8 +45,11 @@ export function Combobox<T, M extends boolean = false>({
   value,
   onChange,
   className,
+  creatable = false,
+  creatableParser,
 }: ComboboxProps<T, M>) {
   const [open, setOpen] = React.useState(false);
+  const [search, setSearch] = React.useState("");
 
   const handleSelect = (selectedValue: T) => {
     if (multiple) {
@@ -77,10 +82,25 @@ export function Combobox<T, M extends boolean = false>({
 
       return selectedOption
         ? selectedOption.children || selectedOption.label
-        : placeholder;
+        : value
+          ? String(value)
+          : placeholder;
     }
 
     return placeholder;
+  };
+
+  const filteredOptions = creatable
+    ? options.filter((o) =>
+        o.label.toLowerCase().includes(search.toLowerCase())
+      )
+    : options;
+
+  const handleCreate = () => {
+    if (!search.trim() || multiple) return;
+    const parsed = creatableParser ? creatableParser(search) : (search as T);
+    handleSelect(parsed);
+    setSearch("");
   };
 
   return (
@@ -97,10 +117,22 @@ export function Combobox<T, M extends boolean = false>({
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-fit p-0">
-        <Command>
-          <CommandInput className="h-9" placeholder="Search..." />
+        <Command shouldFilter={!creatable}>
+          <CommandInput
+            className="h-9"
+            onValueChange={setSearch}
+            placeholder="Search..."
+            value={search}
+          />
           <CommandEmpty>
-            <BoxIcon className="inline-block text-slate-500" />
+            {creatable && search.trim() ? (
+              <CommandItem onSelect={handleCreate} value={search}>
+                <span className="text-muted-foreground">Create </span>
+                &ldquo;{search}&rdquo;
+              </CommandItem>
+            ) : (
+              <BoxIcon className="inline-block text-slate-500" />
+            )}
           </CommandEmpty>
           <CommandGroup>
             <CommandList
@@ -108,7 +140,7 @@ export function Combobox<T, M extends boolean = false>({
                 e.currentTarget.scrollTop += e.deltaY;
               }}
             >
-              {options.map((option) => (
+              {filteredOptions.map((option) => (
                 <CommandItem
                   key={String(option.label + option.value)}
                   onSelect={() => handleSelect(option.value)}

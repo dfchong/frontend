@@ -15,6 +15,7 @@
   "drawerEditTitle": "编辑节点",
   "edit": "编辑",
   "enabled": "已启用",
+  "enabled_description": "启用后节点会出现在用户订阅中。",
   "enabled_off": "已禁用",
   "enabled_on": "已启用",
   "name": "名称",

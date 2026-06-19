@@ -11,6 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@workspace/ui/components/form";
+import { Switch } from "@workspace/ui/components/switch";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import {
   Sheet,
@@ -79,6 +80,7 @@ const buildSchema = (t: TFunction) =>
       .max(65_535, t("errors.portRange", "Port must be between 1 and 65535"))
       .optional(),
     parent_id: z.number().int().min(0).optional(),
+    enabled: z.boolean().optional(),
     tags: z.array(z.string()),
   });
 
@@ -123,6 +125,7 @@ export default function NodeForm(props: {
       connect_port: 0,
       service_port: 0,
       parent_id: undefined,
+      enabled: false,
       tags: [],
       ...normalizeValues(initialValues),
     },
@@ -154,6 +157,7 @@ export default function NodeForm(props: {
         connect_port: 0,
         service_port: 0,
         parent_id: undefined,
+        enabled: false,
         tags: [],
         ...normalizeValues(initialValues),
       });
@@ -233,6 +237,7 @@ export default function NodeForm(props: {
               connect_port: 0,
               service_port: 0,
               parent_id: undefined,
+              enabled: false,
               tags: [],
               ...normalizeValues(initialValues),
             });
@@ -258,6 +263,8 @@ export default function NodeForm(props: {
                     <FormLabel>{t("server", "Server")}</FormLabel>
                     <FormControl>
                       <Combobox<number, false>
+                        creatable
+                        creatableParser={(v) => parseInt(v, 10) || 0}
                         onChange={(v) => handleServerChange(v)}
                         options={servers.map((s) => ({
                           value: s.id,
@@ -415,6 +422,31 @@ export default function NodeForm(props: {
                         "Forward traffic to this parent node."
                       )}
                     </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="enabled"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                    <div className="space-y-0.5">
+                      <FormLabel>{t("enabled", "Enabled")}</FormLabel>
+                      <FormDescription>
+                        {t(
+                          "enabled_description",
+                          "Enable this node for user subscriptions."
+                        )}
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
