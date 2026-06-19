@@ -35,7 +35,7 @@ export default defineConfig(({ mode }) => {
       devtools({ eventBusConfig: { port: 42_069 } }),
       tanstackRouter({
         target: "react",
-        autoCodeSplitting: false,
+        autoCodeSplitting: true,
       }),
       viteReact(),
       tailwindcss(),
@@ -58,9 +58,6 @@ export default defineConfig(({ mode }) => {
     build: {
       assetsDir: "static",
       rollupOptions: {
-        output: {
-          inlineDynamicImports: true,
-        },
         onLog(level, log, handler) {
           if (log.code === "UNRESOLVED_IMPORT") return;
           handler(level, log);
