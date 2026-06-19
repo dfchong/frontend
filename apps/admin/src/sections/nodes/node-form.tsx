@@ -63,13 +63,22 @@ const buildSchema = (t: TFunction) =>
       .string()
       .trim()
       .min(1, t("errors.serverAddrRequired", "Please enter an entry address")),
-    port: z
+    connect_port: z
       .number({
         message: t("errors.portRange", "Port must be between 1 and 65535"),
       })
       .int()
       .min(1, t("errors.portRange", "Port must be between 1 and 65535"))
       .max(65_535, t("errors.portRange", "Port must be between 1 and 65535")),
+    service_port: z
+      .number({
+        message: t("errors.portRange", "Port must be between 1 and 65535"),
+      })
+      .int()
+      .min(0)
+      .max(65_535, t("errors.portRange", "Port must be between 1 and 65535"))
+      .optional(),
+    parent_id: z.number().int().min(0).optional(),
     tags: z.array(z.string()),
   });
 
@@ -115,7 +124,9 @@ export default function NodeForm(props: {
       server_id: undefined,
       protocol: "",
       address: "",
-      port: 0,
+      connect_port: 0,
+      service_port: 0,
+      parent_id: undefined,
       tags: [],
       ...normalizeValues(initialValues),
     },
@@ -124,11 +135,18 @@ export default function NodeForm(props: {
   const serverId = form.watch("server_id");
 
   const { servers, getAvailableProtocols } = useServer();
-  const { tags } = useNode();
+  const { nodes, tags } = useNode();
 
   const existingTags: string[] = tags || [];
 
   const availableProtocols = getAvailableProtocols(serverId);
+
+  const parentNodeOptions = nodes
+    .filter((n) => !initialValues?.id || n.id !== (initialValues.id as number))
+    .map((n) => ({
+      value: n.id,
+      label: `${n.name} (${n.address}:${n.connect_port})`,
+    }));
 
   useEffect(() => {
     if (initialValues) {
@@ -137,7 +155,9 @@ export default function NodeForm(props: {
         server_id: undefined,
         protocol: "",
         address: "",
-        port: 0,
+        connect_port: 0,
+        service_port: 0,
+        parent_id: undefined,
         tags: [],
         ...normalizeValues(initialValues),
       });
@@ -183,16 +203,6 @@ export default function NodeForm(props: {
     ) {
       form.setValue("protocol", firstProtocol.protocol, { shouldDirty: false });
       fieldsToFill.push("protocol");
-
-      if (
-        !currentValues.port ||
-        currentValues.port === 0 ||
-        autoFilledFields.has("port")
-      ) {
-        const port = firstProtocol.port || 0;
-        form.setValue("port", port, { shouldDirty: false });
-        fieldsToFill.push("port");
-      }
     }
 
     setAutoFilledFields(new Set(fieldsToFill));
@@ -205,33 +215,6 @@ export default function NodeForm(props: {
     form.setValue(fieldName, value);
     removeAutoFilledField(fieldName);
   };
-
-  function handleProtocolChange(nextProto?: ProtocolName | null) {
-    const protocol = (nextProto || "") as ProtocolName | "";
-    form.setValue("protocol", protocol);
-
-    if (!(protocol && serverId)) {
-      removeAutoFilledField("protocol");
-      return;
-    }
-
-    const currentValues = form.getValues();
-    const isPortAutoFilled = autoFilledFields.has("port");
-
-    removeAutoFilledField("protocol");
-
-    if (!currentValues.port || currentValues.port === 0 || isPortAutoFilled) {
-      const protocolData = availableProtocols.find(
-        (p) => p.protocol === protocol
-      );
-
-      if (protocolData) {
-        const port = protocolData.port || 0;
-        form.setValue("port", port, { shouldDirty: false });
-        addAutoFilledField("port");
-      }
-    }
-  }
 
   async function handleSubmit(values: NodeFormValues) {
     const result = await onSubmit(values);
@@ -251,7 +234,9 @@ export default function NodeForm(props: {
               server_id: undefined,
               protocol: "",
               address: "",
-              port: 0,
+              connect_port: 0,
+              service_port: 0,
+              parent_id: undefined,
               tags: [],
               ...normalizeValues(initialValues),
             });
@@ -299,7 +284,10 @@ export default function NodeForm(props: {
                     <FormControl>
                       <Combobox<string, false>
                         onChange={(v) =>
-                          handleProtocolChange((v as ProtocolName) || null)
+                          handleManualFieldChange(
+                            "protocol",
+                            (v as ProtocolName) || ""
+                          )
                         }
                         options={availableProtocols.map((p) => ({
                           value: p.protocol,
@@ -353,17 +341,17 @@ export default function NodeForm(props: {
 
               <FormField
                 control={form.control}
-                name="port"
+                name="connect_port"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("port", "Port")}</FormLabel>
+                    <FormLabel>{t("connect_port", "Connect Port")}</FormLabel>
                     <FormControl>
                       <EnhancedInput
                         {...field}
                         max={65_535}
                         min={1}
                         onValueChange={(v) =>
-                          handleManualFieldChange("port", Number(v))
+                          handleManualFieldChange("connect_port", Number(v))
                         }
                         placeholder="1-65535"
                         type="number"
@@ -373,6 +361,69 @@ export default function NodeForm(props: {
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="service_port"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("service_port", "Service Port")}</FormLabel>
+                    <FormControl>
+                      <EnhancedInput
+                        {...field}
+                        max={65_535}
+                        min={0}
+                        onValueChange={(v) =>
+                          handleManualFieldChange("service_port", Number(v))
+                        }
+                        placeholder="0-65535"
+                        type="number"
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t(
+                        "service_port_description",
+                        "Internal forwarding service port. Leave 0 if unused."
+                      )}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="parent_id"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("parent_node", "Parent Node")}</FormLabel>
+                    <FormControl>
+                      <Combobox<number, false>
+                        onChange={(v) =>
+                          handleManualFieldChange("parent_id", v ?? 0)
+                        }
+                        options={[
+                          { value: 0, label: t("none", "None") },
+                          ...parentNodeOptions,
+                        ]}
+                        placeholder={t(
+                          "select_parent_node",
+                          "Select parent node…"
+                        )}
+                        value={field.value}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t(
+                        "parent_node_description",
+                        "Forward traffic to this parent node."
+                      )}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="tags"

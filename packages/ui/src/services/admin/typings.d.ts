@@ -260,10 +260,12 @@ declare namespace API {
   type CreateNodeRequest = {
     name: string;
     tags?: string[];
-    port: number;
+    connect_port: number;
+    service_port?: number;
     address: string;
     server_id: number;
     protocol: string;
+    parent_id?: number;
     enabled: boolean;
   };
 
@@ -1370,10 +1372,12 @@ declare namespace API {
     id: number;
     name: string;
     tags: string[];
-    port: number;
+    connect_port: number;
+    service_port: number;
     address: string;
     server_id: number;
     protocol: string;
+    parent_id: number;
     enabled: boolean;
     sort?: number;
     created_at: number;
@@ -2332,10 +2336,12 @@ declare namespace API {
     id: number;
     name: string;
     tags?: string[];
-    port: number;
+    connect_port: number;
+    service_port?: number;
     address: string;
     server_id: number;
     protocol: string;
+    parent_id?: number;
     enabled: boolean;
   };
 

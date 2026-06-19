@@ -28,9 +28,8 @@ export default function Nodes() {
   const ref = useRef<ProTableActions>(null);
   const [loading, setLoading] = useState(false);
 
-  // Use our zustand store for server data
   const { getServerName, getServerAddress, getProtocolPort } = useServer();
-  const { fetchNodes, fetchTags } = useNode();
+  const { fetchNodes, fetchTags, nodes, getNodeById } = useNode();
 
   return (
     <ProTable<API.Node, { search: string }>
@@ -157,10 +156,24 @@ export default function Nodes() {
         { accessorKey: "name", header: t("name", "Name") },
 
         {
-          id: "address_port",
-          header: `${t("address", "Address")}:${t("port", "Port")}`,
-          cell: ({ row }) =>
-            `${row.original.address || "—"}:${row.original.port || "—"}`,
+          id: "address_ports",
+          header: `${t("address", "Address")}`,
+          cell: ({ row }) => (
+            <div className="flex flex-col gap-0.5">
+              <span>
+                {t("connect_port", "Connect")}
+                {": "}
+                {row.original.address || "—"}:{row.original.connect_port || "—"}
+              </span>
+              {row.original.service_port > 0 && (
+                <span className="text-muted-foreground text-xs">
+                  {t("service_port", "Service")}
+                  {": "}
+                  {row.original.service_port}
+                </span>
+              )}
+            </div>
+          ),
         },
 
         {
@@ -174,6 +187,15 @@ export default function Nodes() {
           header: ` ${t("protocol", "Protocol")}:${t("port", "Port")}`,
           cell: ({ row }) =>
             `${row.original.protocol}:${getProtocolPort(row.original.server_id, row.original.protocol)}`,
+        },
+        {
+          id: "parent_id",
+          header: t("parent_node", "Parent"),
+          cell: ({ row }) => {
+            if (!row.original.parent_id) return "—";
+            const parent = getNodeById(row.original.parent_id);
+            return parent ? parent.name : `ID:${row.original.parent_id}`;
+          },
         },
         {
           accessorKey: "tags",
@@ -204,7 +226,9 @@ export default function Nodes() {
                   server_id: Number(values.server_id!),
                   protocol: values.protocol,
                   address: values.address,
-                  port: Number(values.port!),
+                  connect_port: Number(values.connect_port!),
+                  service_port: Number(values.service_port || 0),
+                  parent_id: Number(values.parent_id || 0),
                   tags: values.tags || [],
                   enabled: false,
                 };
@@ -226,8 +250,6 @@ export default function Nodes() {
         ),
       }}
       onSort={async (source, target, items) => {
-        // NOTE: `items` is the current page's items from ProTable.
-        // Avoid mutating it in-place, and persist sort changes reliably.
         const sourceIndex = items.findIndex(
           (item) => String(item.id) === source
         );
@@ -243,13 +265,6 @@ export default function Nodes() {
         const [movedItem] = next.splice(sourceIndex, 1);
         next.splice(targetIndex, 0, movedItem!);
 
-        // IMPORTANT:
-        // Some installations have duplicate / empty `sort` values (commonly 0 or null)
-        // which makes the order appear "random" after refresh and also makes
-        // "swap sort values" strategies a no-op.
-        //
-        // To make the ordering stable, we re-index the current page to a strictly
-        // increasing sequence.
         const numericSorts = items
           .map((it) => (typeof it.sort === "number" ? it.sort : Number.NaN))
           .filter((v) => Number.isFinite(v)) as number[];
@@ -266,7 +281,6 @@ export default function Nodes() {
 
         if (changedItems.length > 0) {
           await resetSortWithNode({
-            // Send all changed rows (within the current page) so backend can persist.
             sort: changedItems.map((item) => ({
               id: item.id,
               sort: item.sort,
@@ -285,15 +299,12 @@ export default function Nodes() {
           search: filter?.search || undefined,
         });
         const rawList = (data?.data?.list || []) as API.Node[];
-        // Backend should ideally return nodes already sorted, but we also sort on the
-        // frontend to keep the UI stable (and avoid "random" order after refresh).
         const list = rawList.slice().sort((a, b) => {
           const as = a.sort;
           const bs = b.sort;
           const an = typeof as === "number" ? as : Number.POSITIVE_INFINITY;
           const bn = typeof bs === "number" ? bs : Number.POSITIVE_INFINITY;
           if (an !== bn) return an - bn;
-          // Tie-breaker to keep a stable order.
           return Number(a.id) - Number(b.id);
         });
         const total = Number(data?.data?.total || list.length);
