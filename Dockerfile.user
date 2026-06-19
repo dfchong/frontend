@@ -10,9 +10,7 @@ COPY docs/package.json docs/package.json
 RUN bun install --frozen-lockfile
 
 COPY . .
-WORKDIR /app/apps/user
-RUN bun vite build
-WORKDIR /app
+RUN bun vite build --config apps/user/vite.config.ts
 
 FROM nginx:alpine
 COPY --from=builder /app/apps/user/dist /usr/share/nginx/html
