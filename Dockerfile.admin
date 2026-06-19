@@ -17,4 +17,4 @@ WORKDIR /app
 FROM caddy:2-alpine
 COPY --from=builder /app/apps/admin/dist /srv
 COPY apps/admin/Caddyfile /etc/caddy/Caddyfile
-EXPOSE 80
+EXPOSE 8080
