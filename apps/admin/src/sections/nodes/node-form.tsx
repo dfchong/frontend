@@ -93,7 +93,7 @@ export default function NodeForm(props: {
   trigger: string;
   title: string;
   loading?: boolean;
-  initialValues?: Partial<NodeFormValues>;
+  initialValues?: Partial<NodeFormValues & { id?: number }>;
   onSubmit: (values: NodeFormValues) => Promise<boolean> | boolean;
 }) {
   const { trigger, title, loading, initialValues, onSubmit } = props;
@@ -104,10 +104,6 @@ export default function NodeForm(props: {
   const [autoFilledFields, setAutoFilledFields] = useState<Set<string>>(
     new Set()
   );
-
-  const addAutoFilledField = (fieldName: string) => {
-    setAutoFilledFields((prev) => new Set(prev).add(fieldName));
-  };
 
   const removeAutoFilledField = (fieldName: string) => {
     setAutoFilledFields((prev) => {

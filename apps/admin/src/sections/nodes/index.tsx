@@ -29,7 +29,7 @@ export default function Nodes() {
   const [loading, setLoading] = useState(false);
 
   const { getServerName, getServerAddress, getProtocolPort } = useServer();
-  const { fetchNodes, fetchTags, nodes, getNodeById } = useNode();
+  const { fetchNodes, fetchTags, getNodeById } = useNode();
 
   return (
     <ProTable<API.Node, { search: string }>

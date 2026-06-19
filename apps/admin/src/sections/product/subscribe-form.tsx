@@ -988,7 +988,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
                                               {node.name}
                                             </span>
                                             <span className="flex-1">
-                                              {node.address}:{node.port}
+                                              {node.address}:{node.connect_port}
                                             </span>
                                             <span className="flex-1 text-right">
                                               {node.protocol}
@@ -1045,7 +1045,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
                                         {item.name}
                                       </span>
                                       <span className="flex-1">
-                                        {item.address}:{item.port}
+                                        {item.address}:{item.connect_port}
                                       </span>
                                       <span className="flex-1 text-right">
                                         {item.protocol}
