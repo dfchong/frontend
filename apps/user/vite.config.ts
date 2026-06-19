@@ -42,6 +42,7 @@ export default defineConfig(({ mode }) => {
       versionLockPlugin(),
     ],
     resolve: {
+      preserveSymlinks: true,
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
