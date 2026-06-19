@@ -57,6 +57,12 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       assetsDir: "static",
+      rollupOptions: {
+        onLog(level, log, handler) {
+          if (log.code === "UNRESOLVED_IMPORT") return;
+          handler(level, log);
+        },
+      },
     },
   };
 });
