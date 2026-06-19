@@ -1,0 +1,12 @@
+:80 {
+	root * /srv
+
+	handle /v1/* {
+		reverse_proxy ppanel.ppanel.svc.cluster.local:8080
+	}
+
+	handle {
+		try_files {path} /index.html
+		file_server
+	}
+}

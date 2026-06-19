@@ -1,0 +1,13 @@
+FROM oven/bun:1.3.1 AS builder
+WORKDIR /app
+
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
+
+COPY . .
+RUN bun run build --filter=ppanel-user-web
+
+FROM caddy:2-alpine
+COPY --from=builder /app/apps/user/dist /srv
+COPY apps/user/Caddyfile /etc/caddy/Caddyfile
+EXPOSE 80
