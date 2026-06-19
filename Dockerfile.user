@@ -11,7 +11,7 @@ RUN bun install --frozen-lockfile
 
 COPY . .
 WORKDIR /app/apps/user
-RUN bun run build
+RUN bun vite build
 WORKDIR /app
 
 FROM caddy:2-alpine
