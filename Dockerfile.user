@@ -10,7 +10,9 @@ COPY docs/package.json docs/package.json
 RUN bun install --frozen-lockfile
 
 COPY . .
-RUN bun run build --filter=ppanel-user-web
+WORKDIR /app/apps/user
+RUN bun run build
+WORKDIR /app
 
 FROM caddy:2-alpine
 COPY --from=builder /app/apps/user/dist /srv
