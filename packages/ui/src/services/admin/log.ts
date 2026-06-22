@@ -268,3 +268,37 @@ export async function filterTrafficLogDetails(
     }
   );
 }
+
+/** Filter error log GET /v1/admin/log/error/list */
+export async function filterErrorLog(
+  params: API.FilterErrorLogParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.Response & { data?: API.FilterErrorLogResponse }>(
+    `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/log/error/list`,
+    {
+      method: "GET",
+      params: {
+        ...params,
+      },
+      ...(options || {}),
+    }
+  );
+}
+
+/** Run diagnostic GET /v1/admin/log/error/diagnostic */
+<<<<<<< Updated upstream
+export async function runDiagnostic(options?: { [key: string]: any }) {
+=======
+export async function runDiagnostic(
+  options?: { [key: string]: any }
+) {
+>>>>>>> Stashed changes
+  return request<API.Response & { data?: API.RunDiagnosticResponse }>(
+    `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/log/error/diagnostic`,
+    {
+      method: "GET",
+      ...(options || {}),
+    }
+  );
+}

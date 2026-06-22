@@ -2665,4 +2665,37 @@ declare namespace API {
   type UpdateCorsConfigRequest = {
     origins: string[];
   };
+
+  type ErrorLogEntry = {
+    timestamp: string;
+    level: string;
+    message: string;
+    stack?: string;
+    request_uri?: string;
+    method?: string;
+    client_ip?: string;
+    error_code?: number;
+    diagnostic?: DiagnosticResult;
+  };
+
+  type DiagnosticResult = {
+    timestamp: string;
+    services: Record<string, string>;
+    memory_usage?: string;
+    go_routines: number;
+  };
+
+  type FilterErrorLogParams = {
+    page?: number;
+    size?: number;
+  };
+
+  type FilterErrorLogResponse = {
+    list: ErrorLogEntry[];
+    total: number;
+  };
+
+  type RunDiagnosticResponse = {
+    diagnostic: DiagnosticResult;
+  };
 }

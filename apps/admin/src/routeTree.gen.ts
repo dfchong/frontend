@@ -73,6 +73,9 @@ const DashboardLogLoginLazyRouteImport = createFileRoute(
   '/dashboard/log/login',
 )()
 const DashboardLogGiftLazyRouteImport = createFileRoute('/dashboard/log/gift')()
+const DashboardLogErrorLazyRouteImport = createFileRoute(
+  '/dashboard/log/error',
+)()
 const DashboardLogEmailLazyRouteImport = createFileRoute(
   '/dashboard/log/email',
 )()
@@ -288,6 +291,13 @@ const DashboardLogGiftLazyRoute = DashboardLogGiftLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/dashboard/log/gift.lazy').then((d) => d.Route),
 )
+const DashboardLogErrorLazyRoute = DashboardLogErrorLazyRouteImport.update({
+  id: '/log/error',
+  path: '/log/error',
+  getParentRoute: () => DashboardRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/dashboard/log/error.lazy').then((d) => d.Route),
+)
 const DashboardLogEmailLazyRoute = DashboardLogEmailLazyRouteImport.update({
   id: '/log/email',
   path: '/log/email',
@@ -320,6 +330,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/log/balance': typeof DashboardLogBalanceLazyRoute
   '/dashboard/log/commission': typeof DashboardLogCommissionLazyRoute
   '/dashboard/log/email': typeof DashboardLogEmailLazyRoute
+  '/dashboard/log/error': typeof DashboardLogErrorLazyRoute
   '/dashboard/log/gift': typeof DashboardLogGiftLazyRoute
   '/dashboard/log/login': typeof DashboardLogLoginLazyRoute
   '/dashboard/log/mobile': typeof DashboardLogMobileLazyRoute
@@ -351,6 +362,7 @@ export interface FileRoutesByTo {
   '/dashboard/log/balance': typeof DashboardLogBalanceLazyRoute
   '/dashboard/log/commission': typeof DashboardLogCommissionLazyRoute
   '/dashboard/log/email': typeof DashboardLogEmailLazyRoute
+  '/dashboard/log/error': typeof DashboardLogErrorLazyRoute
   '/dashboard/log/gift': typeof DashboardLogGiftLazyRoute
   '/dashboard/log/login': typeof DashboardLogLoginLazyRoute
   '/dashboard/log/mobile': typeof DashboardLogMobileLazyRoute
@@ -384,6 +396,7 @@ export interface FileRoutesById {
   '/dashboard/log/balance': typeof DashboardLogBalanceLazyRoute
   '/dashboard/log/commission': typeof DashboardLogCommissionLazyRoute
   '/dashboard/log/email': typeof DashboardLogEmailLazyRoute
+  '/dashboard/log/error': typeof DashboardLogErrorLazyRoute
   '/dashboard/log/gift': typeof DashboardLogGiftLazyRoute
   '/dashboard/log/login': typeof DashboardLogLoginLazyRoute
   '/dashboard/log/mobile': typeof DashboardLogMobileLazyRoute
@@ -418,6 +431,7 @@ export interface FileRouteTypes {
     | '/dashboard/log/balance'
     | '/dashboard/log/commission'
     | '/dashboard/log/email'
+    | '/dashboard/log/error'
     | '/dashboard/log/gift'
     | '/dashboard/log/login'
     | '/dashboard/log/mobile'
@@ -449,6 +463,7 @@ export interface FileRouteTypes {
     | '/dashboard/log/balance'
     | '/dashboard/log/commission'
     | '/dashboard/log/email'
+    | '/dashboard/log/error'
     | '/dashboard/log/gift'
     | '/dashboard/log/login'
     | '/dashboard/log/mobile'
@@ -481,6 +496,7 @@ export interface FileRouteTypes {
     | '/dashboard/log/balance'
     | '/dashboard/log/commission'
     | '/dashboard/log/email'
+    | '/dashboard/log/error'
     | '/dashboard/log/gift'
     | '/dashboard/log/login'
     | '/dashboard/log/mobile'
@@ -701,6 +717,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardLogGiftLazyRouteImport
       parentRoute: typeof DashboardRouteLazyRoute
     }
+    '/dashboard/log/error': {
+      id: '/dashboard/log/error'
+      path: '/log/error'
+      fullPath: '/dashboard/log/error'
+      preLoaderRoute: typeof DashboardLogErrorLazyRouteImport
+      parentRoute: typeof DashboardRouteLazyRoute
+    }
     '/dashboard/log/email': {
       id: '/dashboard/log/email'
       path: '/log/email'
@@ -732,6 +755,7 @@ interface DashboardRouteLazyRouteChildren {
   DashboardLogBalanceLazyRoute: typeof DashboardLogBalanceLazyRoute
   DashboardLogCommissionLazyRoute: typeof DashboardLogCommissionLazyRoute
   DashboardLogEmailLazyRoute: typeof DashboardLogEmailLazyRoute
+  DashboardLogErrorLazyRoute: typeof DashboardLogErrorLazyRoute
   DashboardLogGiftLazyRoute: typeof DashboardLogGiftLazyRoute
   DashboardLogLoginLazyRoute: typeof DashboardLogLoginLazyRoute
   DashboardLogMobileLazyRoute: typeof DashboardLogMobileLazyRoute
@@ -763,6 +787,7 @@ const DashboardRouteLazyRouteChildren: DashboardRouteLazyRouteChildren = {
   DashboardLogBalanceLazyRoute: DashboardLogBalanceLazyRoute,
   DashboardLogCommissionLazyRoute: DashboardLogCommissionLazyRoute,
   DashboardLogEmailLazyRoute: DashboardLogEmailLazyRoute,
+  DashboardLogErrorLazyRoute: DashboardLogErrorLazyRoute,
   DashboardLogGiftLazyRoute: DashboardLogGiftLazyRoute,
   DashboardLogLoginLazyRoute: DashboardLogLoginLazyRoute,
   DashboardLogMobileLazyRoute: DashboardLogMobileLazyRoute,

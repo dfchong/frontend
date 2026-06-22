@@ -128,7 +128,10 @@ export default function EmailTaskManager() {
                           {t("emailContent", "Email Content")}
                         </DialogTitle>
                         <DialogDescription>
-                          {t("emailContentDesc", "Preview the email content for this batch task.")}
+                          {t(
+                            "emailContentDesc",
+                            "Preview the email content for this batch task."
+                          )}
                         </DialogDescription>
                       </DialogHeader>
                       <ScrollArea className="h-[60vh] pr-4">

@@ -189,6 +189,11 @@ export function useNavs() {
             url: "/dashboard/log/gift",
             icon: "flat-color-icons:donate",
           },
+          {
+            title: t("Error Log", "Error Log"),
+            url: "/dashboard/log/error",
+            icon: "flat-color-icons:low-priority",
+          },
         ],
       },
     ],

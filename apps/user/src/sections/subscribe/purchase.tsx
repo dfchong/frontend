@@ -123,7 +123,10 @@ export default function Purchase({
         <DialogHeader className="p-6 pb-0">
           <DialogTitle>{t("buySubscription", "Buy Subscription")}</DialogTitle>
           <DialogDescription>
-            {t("buySubscriptionDesc", "Select quantity and payment method to complete your purchase.")}
+            {t(
+              "buySubscriptionDesc",
+              "Select quantity and payment method to complete your purchase."
+            )}
           </DialogDescription>
         </DialogHeader>
         <div className="grid w-full flex-grow gap-3 overflow-auto p-6 pt-0 lg:grid-cols-2">

@@ -122,7 +122,10 @@ export default function Renewal({ id, subscribe }: Readonly<RenewalProps>) {
             {t("renewSubscription", "Renew Subscription")}
           </DialogTitle>
           <DialogDescription>
-            {t("renewSubscriptionDesc", "Extend your current subscription with a renewal plan.")}
+            {t(
+              "renewSubscriptionDesc",
+              "Extend your current subscription with a renewal plan."
+            )}
           </DialogDescription>
         </DialogHeader>
         <div className="grid w-full gap-3 lg:grid-cols-2">

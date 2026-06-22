@@ -57,12 +57,12 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       assetsDir: "static",
+<<<<<<< Updated upstream
+      rollupOptions: {},
+=======
       rollupOptions: {
-        onLog(level, log, handler) {
-          if (log.code === "UNRESOLVED_IMPORT") return;
-          handler(level, log);
-        },
       },
+>>>>>>> Stashed changes
     },
   };
 });

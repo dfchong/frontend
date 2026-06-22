@@ -89,7 +89,10 @@ function MobileBindDialog({
             {t("thirdParty.bindMobile", "Connect Mobile")}
           </DialogTitle>
           <DialogDescription>
-            {t("thirdParty.bindMobileDesc", "Bind your mobile number to secure your account.")}
+            {t(
+              "thirdParty.bindMobileDesc",
+              "Bind your mobile number to secure your account."
+            )}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>

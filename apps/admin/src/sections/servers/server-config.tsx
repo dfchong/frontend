@@ -134,6 +134,9 @@ export default function ServerConfig() {
       toast.success(t("server_config.saveSuccess", "Saved successfully"));
       await refetchCfg();
       setOpen(false);
+    } catch (err: any) {
+      const msg = err?.response?.data?.msg || err?.message || String(err);
+      toast.error(t("server_config.saveError", "Save failed: ") + msg);
     } finally {
       setSaving(false);
     }

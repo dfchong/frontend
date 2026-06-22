@@ -11,7 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@workspace/ui/components/form";
-import { Switch } from "@workspace/ui/components/switch";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import {
   Sheet,
@@ -21,6 +20,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@workspace/ui/components/sheet";
+import { Switch } from "@workspace/ui/components/switch";
 import { Combobox } from "@workspace/ui/composed/combobox";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import TagInput from "@workspace/ui/composed/tag-input";
@@ -264,7 +264,7 @@ export default function NodeForm(props: {
                     <FormControl>
                       <Combobox<number, false>
                         creatable
-                        creatableParser={(v) => parseInt(v, 10) || 0}
+                        creatableParser={(v) => Number.parseInt(v, 10) || 0}
                         onChange={(v) => handleServerChange(v)}
                         options={servers.map((s) => ({
                           value: s.id,

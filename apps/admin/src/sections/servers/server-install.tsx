@@ -88,7 +88,10 @@ export default function ServerInstall({ server }: Props) {
         <DialogHeader>
           <DialogTitle>{t("oneClickInstall", "One-click Install")}</DialogTitle>
           <DialogDescription>
-            {t("oneClickInstallDesc", "Quickly deploy a node server with a single command.")}
+            {t(
+              "oneClickInstallDesc",
+              "Quickly deploy a node server with a single command."
+            )}
           </DialogDescription>
         </DialogHeader>
 

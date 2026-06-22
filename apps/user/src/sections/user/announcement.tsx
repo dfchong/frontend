@@ -53,7 +53,10 @@ export default function Announcement({ type }: { type: "popup" | "pinned" }) {
           <DialogHeader>
             <DialogTitle>{data?.title}</DialogTitle>
             <DialogDescription>
-              {t("announcementPopupDesc", "Important announcement from the system administrator.")}
+              {t(
+                "announcementPopupDesc",
+                "Important announcement from the system administrator."
+              )}
             </DialogDescription>
           </DialogHeader>
           <Markdown>{data?.content}</Markdown>
